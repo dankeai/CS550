@@ -1,54 +1,35 @@
-"""
-Create function driver in driver.py that is invoked when driver.py is called from the
-command line: python driver.py. It should print a board and allow you to play an 8
-puzzle. If you want, you can have it ask you for the size of the board instead of
-hardcoding it.
-"""
-
 from boardtypes import TileBoard
 
 
-class Puzzle(object):
-    def __init__(self, size=8, force_state=None):
-        self.num_tiles = size
-        self.board = TileBoard(self.num_tiles, force_state)
-
-    def play(self):
-        print("Hello! Let's play the %d tile game!" % self.num_tiles)
-        while not self.board.solved():
-            print(self.board)
-
-            # Show Move Options
-            options = self.board.get_actions()
-            chosen_option = None
-            prompt = "How would you like to move [row_delta,col_delta]? "
-
-            print()
-            print("\t".join(["%s. %s" % (letter, move) for (letter, move) in
-                             zip([chr(l) for l in range(ord('a'), ord('a') + len(options))], options)]))
-
-            while chosen_option not in options:
-                letter_choice = input(prompt)
-
-                # noinspection PyBroadException
-                try:
-                    chosen_option = options[ord(letter_choice) - ord('a')]
-                except Exception:
-                    pass
-
-                prompt = "Invalid Choice. Please try again: "
-
-            # Perform Move
-            self.board = self.board.move(chosen_option)
-
-        # Puzzle has been solved!
-        print("Nice Job! You Solved the Puzzle")
-
-
 def driver():
-    size = 8
-    Puzzle(size).play()
+    tile_board = TileBoard(8)
+    print("Valid Commands: Left, Right, Up, Down, Quit")
+    while not tile_board.solved():
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print(tile_board)
+        print(" ---  ---  ---  ---  ---  ")
+        valid = False
+        while not valid:
+            move = input("Move?")
+            if "QUIT" == move.upper():
+                print("Bye")
+                exit(0)
+            elif "LEFT" == move.upper():
+                tile_board = tile_board.move([-1, 0])
+            elif "RIGHT" == move.upper():
+                tile_board = tile_board.move([1, 0])
+            elif "UP" == move.upper():
+                tile_board = tile_board.move([0, -1])
+            elif "DOWN" == move.upper():
+                tile_board = tile_board.move([0, 1])
+            else:
+                print("Try Again")
+                print("Valid Commands: Left, Right, Up, Down, Quit")
+                continue
+            valid = True
+
+    print(tile_board)
+    print("Congratulations, puzzle solved", end="")
 
 
-if __name__ == '__main__':
-    driver()
+driver()

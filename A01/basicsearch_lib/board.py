@@ -22,23 +22,23 @@ class Board(object):
             [[None for c in range(cols)] for r in range(rows)]
 
     def place(self, row, col, item):
-        """place an item"""
+        "place an item"
         self.board[row][col] = item
 
     def get(self, row, col):
-        """get an item"""
+        "get an item"
         return self.board[row][col]
 
     def get_rows(self):
-        """get_rows - return number of rows"""
+        "get_rows - return number of rows"
         return self.rows
 
     def get_cols(self):
-        """get_cols - return number of columns"""
+        "get_cols - return number of columns"
         return self.cols
 
     def __repr__(self):
-        """return a representation of the board"""
+        "return a representation of the board"
 
         lines = []
         # NOTE:  This section uses Python's format strings (see string
